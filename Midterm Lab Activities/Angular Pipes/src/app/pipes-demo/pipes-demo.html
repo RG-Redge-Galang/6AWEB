@@ -1,0 +1,82 @@
+<div class="page">
+
+  <div class="card">
+    <section>
+      <h3>Date Pipe</h3>
+      <p>Raw: {{ presentDate }}</p>
+      <p>Default: {{ presentDate | date }}</p>
+      <p>Short: {{ presentDate | date:'shortDate' }}</p>
+      <p>Full: {{ presentDate | date:'fullDate' }}</p>
+      <p>M/dd/yyyy: {{ presentDate | date:'M/dd/yyyy' }}</p>
+      <p>Time: {{ presentDate | date:'h:mm' }}</p>
+    </section>
+  </div>
+
+  <div class="card">
+    <section>
+      <h3>Case Pipes</h3>
+      <p>Upper: {{ presentDate | date:'fullDate' | uppercase }}</p>
+      <p>Lower: {{ presentDate | date:'medium' | lowercase }}</p>
+    </section>
+  </div>
+
+  <div class="card">
+    <section>
+      <h3>Live Time</h3>
+      <p>{{ time$ | async | date:'mediumTime' }}</p>
+    </section>
+  </div>
+
+  <div class="card">
+    <section>
+      <h3>Currency Pipe</h3>
+      <p>Default $: {{ price | currency }}</p>
+      <p>INR: {{ price | currency:'INR' }}</p>
+    </section>
+  </div>
+
+  <div class="card">
+    <section>
+      <h3>Slice Pipe</h3>
+      <p>2: {{ fruits | slice:2 }}</p>
+      <p>1 to 4: {{ fruits | slice:1:4 }}</p>
+      <p>-2: {{ fruits | slice:-2 }}</p>
+      <p>-4 to -2: {{ fruits | slice:-4:-2 }}</p>
+    </section>
+  </div>
+
+  <div class="card">
+    <section>
+      <h3>Decimal Pipe</h3>
+      <p>3.1: {{ decimalNum1 | number:'3.1' }}</p>
+      <p>2.1-4: {{ decimalNum2 | number:'2.1-4' }}</p>
+    </section>
+  </div>
+
+  <div class="card">
+  <section>
+    <h3>TitleCase Pipe</h3>
+    <p>Original: {{ text }}</p>
+    <p>Title Case: {{ text | titlecase }}</p>
+    <p>TitleCase is very similar to the upper and lowercase pipes but title case only capitalizes the first letter of every word</p>
+  </section>
+</div>
+
+<div class="card">
+  <section>
+    <h3>Percent Pipe</h3>
+    <p>Decimal: {{ percentNum1 }}</p>
+    <p>Percent: {{ percentNum1 | percent:'1.2-2' }}</p>
+    <p>Percent pipe is similar to the decimal pipe but it displays numbers in percentage instead of decimal places</p>
+  </section>
+</div>
+<div class="card">
+  <section>
+    <h3>i18nPlural Pipe</h3>
+    <p>Number of clients: {{ clients | i18nPlural: clientMap }}</p>
+    <button (click)="clients = clients + 1">Add Client</button>
+    <button (click)="clients = clients - 1">Remove Client</button>
+    <p>The internationalization pipe is used to make applications usable in different regions by translating text and formating dates but here its used to display pluralization rules</p>
+  </section>
+</div>
+</div>
