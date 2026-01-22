@@ -1,0 +1,28 @@
+<h2>USER LIST</h2>
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Username</th>
+    <th>Email</th>
+  </tr>
+
+  @for (user of httpusers; track user.id) {
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+    </tr>
+  }
+</table>
+
+<h2>POST LIST (First 5)</h2>
+<ul>
+  @for (post of posts; track post.id) {
+    <li>
+      <strong>{{ post.title }}</strong><br />
+      {{ post.body }}
+    </li>
+  }
+</ul>
