@@ -1,0 +1,37 @@
+<h2>EMPLOYEES LIST</h2>
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <th>FIRSTNAME</th>
+    <th>LASTNAME</th>
+    <th>EMAIL</th>
+  </tr>
+
+  @for (employee of employees; track employee.id) {
+    <tr>
+      <td>{{ employee.id }}</td>
+      <td>{{ employee.firstname }}</td>
+      <td>{{ employee.lastname }}</td>
+      <td>{{ employee.email }}</td>
+    </tr>
+  }
+</table>
+
+<h2>PRODUCTS LIST</h2>
+<table class="table">
+  <tr>
+    <th>Product ID</th>
+    <th>Product Name</th>
+    <th>Description</th>
+    <th>Price</th>
+  </tr>
+
+  @for (product of products; track product.productid) {
+    <tr>
+      <td>{{ product.productid }}</td>
+      <td>{{ product.productname }}</td>
+      <td>{{ product.description }}</td>
+      <td>{{ product.price }}</td>
+    </tr>
+  }
+</table>
