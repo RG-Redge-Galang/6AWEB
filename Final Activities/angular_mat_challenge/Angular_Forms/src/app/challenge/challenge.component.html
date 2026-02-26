@@ -1,0 +1,75 @@
+<div [class.dark-theme]="isDarkMode" class="theme-wrapper">
+  <div class="form-container">
+
+    <div class="header-row">
+      <h1>Pokemon News Letter</h1>
+      <div class="mode-toggle">
+        <span>{{ isDarkMode ? 'Dark' : 'Light' }}</span>
+        <mat-slide-toggle (change)="toggleTheme()" [checked]="isDarkMode"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <form [formGroup]="formdata" (ngSubmit)="onClickSubmit()">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="userName">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+        @if (formdata.controls['email'].invalid && formdata.controls['email'].touched) {
+          <mat-error>Valid email is required</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+      </mat-form-field>
+
+      <div class="radio-group">
+        <label class="group-label">Gender</label>
+        <mat-radio-group formControlName="gender" class="gender-radio-group">
+          <mat-radio-button value="male">Male</mat-radio-button>
+          <mat-radio-button value="female">Female</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Birth Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="birthDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        @if (formdata.controls['birthDate'].hasError('invalidYear')) {
+          <mat-error>Must be born in 2006 or earlier</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Favorite Gen 1 Starter</mat-label>
+        <mat-select formControlName="favoriteColor">
+          @for (color of favoriteColors; track color) {
+            <mat-option [value]="color">{{ color }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-slide-toggle formControlName="subscribe">Subscribe to Newsletter</mat-slide-toggle>
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="!formdata.valid">
+        Save Profile
+      </button>
+    </form>
+
+    @if (submitted && formdata.valid) {
+      <div class="summary-card">
+        <h3>Submission Results</h3>
+        <p><strong>User:</strong> {{ displayData.userName }}</p>
+        <p><strong>Email:</strong> {{ displayData.email }}</p>
+        <p><strong>Born:</strong> {{ displayData.birthDate | date:'mediumDate' }}</p>
+      </div>
+    }
+  </div>
+</div>

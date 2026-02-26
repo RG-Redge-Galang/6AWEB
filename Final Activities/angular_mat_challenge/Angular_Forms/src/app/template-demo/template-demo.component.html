@@ -1,0 +1,85 @@
+<html>
+  <form (ngSubmit)="onSubmit()" #myForm="ngForm">
+    <input
+      class="input-box"
+      type="text"
+      name="username"
+      [(ngModel)]="username"
+      placeholder="Enter username"
+      required
+    />
+    <input
+      class="input-box"
+      type="email"
+      name="email"
+      [(ngModel)]="email"
+      placeholder="Enter email"
+      required
+    />
+    <input
+      class="input-box"
+      type="password"
+      name="password"
+      [(ngModel)]="password"
+      placeholder="Enter password"
+      required
+      minlength="6"
+    />
+    <input
+      class="input-box"
+      type="number"
+      name="age"
+      [(ngModel)]="age"
+      placeholder="Age"
+      required
+      minlength="2"
+      maxlength="3"
+    />
+     <input
+      class="input-box"
+      type="text"
+      name="address"
+      [(ngModel)]="address"
+      placeholder="Enter address"
+      required
+
+    />
+
+    <select name="role" class="input-box" [(ngModel)]="role" required="">
+      <option value="" disabled selected>Select role</option>
+      <option value="admin">Admin</option>
+      <option value="admin">User</option>
+      <option value="admin">Guest</option>
+    </select>
+
+    <select name="status" class="input-box" [(ngModel)]="status" required>
+      <option value="" disabled selected>Select Status</option>
+      <option value="permanent">Permanent</option>
+      <option value="probationary">Probationary</option>
+    </select>
+    <select name="department" class="input-box" [(ngModel)]="department" required>
+      <option value="" disabled selected>Select Status</option>
+      <option value="human-resources">Human Resources</option>
+      <option value="information-technology">Information Technology</option>
+      <option value="finance-accounting">Finance and Accounting</option>
+    </select>
+    <div class="gender-group">
+  <input class="radio" type="radio" name="gender" id="Male" [(ngModel)]="gender" value="Male" required />
+  <label for="Male">Male</label>
+
+  <input class="radio" type="radio" name="gender" id="Female" [(ngModel)]="gender" value="Female" required />
+  <label for="Female">Female</label>
+</div>
+
+
+    <label for="comments">Comments</label>
+    <textarea name="comments" id="comments" rows="5" cols="30"></textarea>
+
+    <input
+      type="submit"
+      class="btn"
+      value="Submit"
+      [disabled]="!myForm.valid"
+    />
+  </form>
+</html>

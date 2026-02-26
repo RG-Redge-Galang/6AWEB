@@ -1,0 +1,63 @@
+<html>
+  <div class="card">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input class="input" placeholder="Username" formControlName="username" />
+      @if (isInvalid('username')) {
+      <small class="error">Username: 4-12 chars (letters/numbers/_)</small>
+      }
+      <input
+        class="input"
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+      />
+      @if (isInvalid('email')) {
+      <small class="error">Enter a valid email</small>
+      }
+      <input
+        class="input"
+        type="password"
+        placeholder="Password"
+        formControlName="password"
+      />
+      @if (isInvalid('password')) {
+      <small class="error">Password: 8+ with upper, lower, number</small>
+      }
+      <input
+        type="number"
+        class="input"
+        placeholder="Total Playtime (Hours)"
+        formControlName="playtime"
+      />   @if (isInvalid('playtime')) {
+      <small class="error">Enter a valid total play time (Hours)</small>
+      }
+
+      <div class="gender-group">
+  <label>
+    <input type="radio" formControlName="gender" value="Male" />
+    Male
+  </label>
+
+  <label>
+    <input type="radio" formControlName="gender" value="Female" />
+    Female
+  </label>
+</div>
+
+      @if (isInvalid('gender')) {
+      <small class="error">Select a gender</small>
+      }
+      <label>Most Played Game</label>
+      <select class="input" formControlName="game">
+        @for (g of games; track g) {
+        <option [value]="g">{{ g }}</option>
+        }
+      </select>
+  <label for="comments">Comments</label>
+      <textarea name="comments" formControlName="comments"></textarea>
+      <button class="btn" type="submit" [disabled]="form.invalid">
+        Submit
+      </button>
+    </form>
+  </div>
+</html>
