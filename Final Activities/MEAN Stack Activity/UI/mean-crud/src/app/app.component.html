@@ -1,0 +1,38 @@
+<div class="main-container">
+  <h1 class="app-title">Books Application</h1>
+
+  <div class="input-section">
+    <div class="input-group">
+      <input id="newBook" placeholder="Title">
+      <input id="newDesc" placeholder="Description">
+      <input id="newGenre" placeholder="Genre">
+      <input id="newPrice" type="number" placeholder="Price">
+      <input id="newSeries" placeholder="Series (true/false)">
+    </div>
+    <button class="add-btn" (click)="addBook()">ADD NEW BOOK</button>
+  </div>
+
+  <div class="book-list">
+    @for (book of books; track book.id) {
+      <div class="book-card">
+        <div class="book-info">
+          <div class="title-row">
+            <span class="book-title">{{ book.title }}</span>
+            @if (book.isSeries === 'true' || book.isSeries === true) {
+              <span class="book-tag">SERIES</span>
+            }
+          </div>
+          <span class="book-detail">{{ book.genre }} — {{ book.desc }}</span>
+          <span class="book-price">${{ book.price }}</span>
+        </div>
+
+        <div class="book-actions">
+          <button class="edit-btn" (click)="editBook(book.id)">EDIT</button>
+          <button class="delete-btn" (click)="deleteBook(book.id)">DELETE</button>
+        </div>
+      </div>
+    } @empty {
+      <p class="empty-msg">No books available.</p>
+    }
+  </div>
+</div>

@@ -1,0 +1,121 @@
+// This file is saved inside the 'api' folder.
+
+const express = require("express");
+const { MongoClient } = require("mongodb");
+const dns = require("dns");
+const cors = require("cors");
+const multer = require("multer");
+
+const app = express();
+app.use(cors());
+
+const CONNECTION_STRING ="mongodb://localhost:27017";
+
+const DATABASENAME = "MyDb";
+let database;
+
+// Middleware instantiation
+app.use((req, res, next) => {
+  if (!database) {
+    return res.status(503).json({ error: "Database not connected yet." });
+  }
+  next();
+});
+
+console.log("Starting API...");
+console.log("Connecting to MongoDB...");
+
+async function start() {
+  try {
+    const client = new MongoClient(CONNECTION_STRING, {
+      serverSelectionTimeoutMS: 10000, // 10s
+      connectTimeoutMS: 10000,
+    });
+
+    await client.connect();
+
+    database = client.db(DATABASENAME);
+    console.log("Yay! Now connected to Cluster");
+
+    app.listen(5038, () => {
+      console.log("Server running on http://localhost:5038");
+    });
+  } catch (error) {
+    console.error("MongoDB connection failed:", error);
+    process.exit(1);
+  }
+}
+
+start();
+
+// ROUTES TO ALL METHODS
+
+// Get all books
+app.get("/api/books/GetBooks", async (req, res) => {
+  try {
+    const result = await database.collection("Books").find({}).toArray();
+    res.send(result);
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    res.status(500).json({ error: "Failed to fetch books" });
+  }
+});
+
+// Add a book
+app.post("/api/books/AddBook", multer().none(), async (req, res) => {
+  try {
+    const numOfDocs = await database.collection("Books").countDocuments();
+
+    await database.collection("Books").insertOne({
+      id: String(numOfDocs + 1),
+      title: req.body.title,
+      desc: req.body.description,         
+      price: Number(req.body.price) || 0,
+      genre: String(req.body.genre || "Uncategorized"),
+      isSeries: req.body.isSeries === 'true' || req.body.isSeries === true 
+    });
+
+    res.json("Added Successfully");
+  } catch (error) {
+    console.error("Error adding book:", error);
+    res.status(500).json({ error: "Failed to add book" });
+  }
+});
+
+// Delete book
+app.delete("/api/books/DeleteBook", async (req, res) => {
+  try {
+    await database.collection("Books").deleteOne({ id: req.query.id });
+    res.json("Deleted successfully!");
+  } catch (error) {
+    console.error("Error deleting book:", error);
+    res.status(500).json({ error: "Failed to delete book" });
+  }
+});
+
+app.put("/api/books/EditBook", multer().none(), async (req, res) => {
+  try {
+    const bookId = String(req.query.id);
+    const updatedBook = {
+      title: req.body.title,
+      desc: req.body.description,
+      genre: req.body.genre,
+      price: Number(req.body.price) || 0,
+      isSeries: req.body.isSeries === 'true' || req.body.isSeries === true
+    };
+
+    const result = await database.collection("Books").updateOne(
+      { id: bookId },
+      { $set: updatedBook }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json("Book not found");
+    }
+
+    res.json("Updated Everything Successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Server Error");
+  }
+});
